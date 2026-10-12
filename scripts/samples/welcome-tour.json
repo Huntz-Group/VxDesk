@@ -1,0 +1,22 @@
+{
+  "name": "Welcome · VxDesk tour (safe)",
+  "description": "A safe first run: variables, templating, a condition branch, logging, and a screenshot of your desktop saved to runs/. No mouse or keyboard input is performed.",
+  "nodes": [
+    {"id": "n1", "type": "trigger.manual", "name": "Start", "position": {"x": 0, "y": 120}, "params": {}, "disabled": false},
+    {"id": "n2", "type": "control.set_variable", "name": "Set user", "position": {"x": 220, "y": 120}, "params": {"name": "user", "value": "VxDesk user"}, "disabled": false},
+    {"id": "n3", "type": "control.log", "name": "Say hello", "position": {"x": 440, "y": 120}, "params": {"message": "Hello {{ vars.user }}! The VxDesk engine is alive."}, "disabled": false},
+    {"id": "n4", "type": "control.condition", "name": "Name long enough?", "position": {"x": 660, "y": 120}, "params": {"expression": "len('{{ vars.user }}') > 3"}, "disabled": false},
+    {"id": "n5", "type": "output.save_screenshot", "name": "Save screenshot", "position": {"x": 900, "y": 40}, "params": {"path": "runs/welcome_shot.png"}, "disabled": false},
+    {"id": "n6", "type": "control.log", "name": "Log success", "position": {"x": 1120, "y": 40}, "params": {"message": "Condition passed — screenshot saved ({{ n5.output.path }})."}, "disabled": false},
+    {"id": "n7", "type": "control.log", "name": "Log failure", "position": {"x": 900, "y": 220}, "params": {"message": "Condition failed — this should not happen."}, "disabled": false}
+  ],
+  "edges": [
+    {"id": "e1", "source": "n1", "target": "n2", "sourceHandle": "default"},
+    {"id": "e2", "source": "n2", "target": "n3", "sourceHandle": "default"},
+    {"id": "e3", "source": "n3", "target": "n4", "sourceHandle": "default"},
+    {"id": "e4", "source": "n4", "target": "n5", "sourceHandle": "true"},
+    {"id": "e5", "source": "n5", "target": "n6", "sourceHandle": "default"},
+    {"id": "e6", "source": "n4", "target": "n7", "sourceHandle": "false"}
+  ],
+  "variables": {"user": "VxDesk user"}
+}

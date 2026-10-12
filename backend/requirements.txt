@@ -1,0 +1,22 @@
+fastapi
+uvicorn[standard]
+python-multipart
+websockets
+numpy
+pillow
+opencv-python-headless
+mss
+dxcam
+pyautogui
+pygetwindow
+pywin32
+pynput
+pywebview
+rapidocr-onnxruntime
+onnxruntime-directml
+pytest
+httpx
+# Optional: official MCP SDK (mcp_server.py has a built-in JSON-RPC fallback)
+mcp
+# Build-only (desktop packaging): pyinstaller
+

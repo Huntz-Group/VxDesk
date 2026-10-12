@@ -1,0 +1,38 @@
+{
+  "$schema": "https://catalog.msh.team/misc/kimi.plugin.schema.json",
+  "name": "vxdesk",
+  "version": "0.1.0",
+  "description": "Drive your Windows desktop from chat — screenshots, vision clicks, typing, and running VxDesk automation workflows.",
+  "keywords": [
+    "vxdesk",
+    "desktop-automation",
+    "rpa",
+    "mcp",
+    "workflow",
+    "screen-automation"
+  ],
+  "author": "VxDesk",
+  "license": "MIT",
+  "skillInstructions": "",
+  "interface": {
+    "displayName": "VxDesk",
+    "shortDescription": "Desktop automation connector for VxDesk",
+    "longDescription": "Connects Kimi to your local VxDesk app: capture the screen, find images or text with GPU-accelerated vision, click and type, and run your saved VxDesk workflows — all fully local.",
+    "developerName": "VxDesk",
+    "websiteURL": "",
+    "iconUrl": "",
+    "category": "PRODUCTIVITY",
+    "hostKind": "local",
+    "platforms": [
+      "windows"
+    ]
+  },
+  "skills": "./skills/",
+  "mcpServers": {
+    "vxdesk": {
+      "command": "D:/OneDrive/Documents/GitHub/vxdesk/VxDesk/backend/.venv/Scripts/python.exe",
+      "args": ["./scripts/run_mcp.py"],
+      "cwd": "./"
+    }
+  }
+}

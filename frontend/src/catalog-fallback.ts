@@ -1,0 +1,257 @@
+// Bundled fallback node catalog — keep in sync with docs/api-contract.md node table.
+// Used when the backend is unreachable so the editor still opens.
+
+import type { NodeCatalog } from './types';
+
+export const FALLBACK_CATALOG: NodeCatalog = {
+  nodes: [
+    {
+      type: 'trigger.manual',
+      category: 'trigger',
+      label: 'Manual Trigger',
+      description: 'Starts the workflow when you press Run.',
+      icon: 'play',
+      params: [],
+    },
+    {
+      type: 'input.data_table',
+      category: 'input',
+      label: 'Data Table',
+      description: 'A list of rows (like a spreadsheet) that loops can work through.',
+      icon: 'table',
+      params: [
+        { name: 'csv_text', label: 'CSV Text', kind: 'csv', required: false, help: 'Paste rows here — the first line is the header.' },
+        { name: 'csv_path', label: 'CSV File Path', kind: 'string', required: false, placeholder: 'C:\\data\\rows.csv' },
+      ],
+    },
+    {
+      type: 'control.loop',
+      category: 'control',
+      label: 'Loop',
+      description: 'Repeats steps — once per row, or a set number of times.',
+      icon: 'loop',
+      branch_handles: ['body', 'done'],
+      params: [
+        {
+          name: 'mode', label: 'Repeat', kind: 'select', required: true, default: 'count',
+          options: [
+            { value: 'count', label: 'A set number of times' },
+            { value: 'rows', label: 'Once per row of a data table' },
+          ],
+        },
+        { name: 'count', label: 'How many times', kind: 'number', default: 1, min: 0, step: 1 },
+        { name: 'source', label: 'Data table to use', kind: 'string', required: false, help: 'Which Data Table step supplies the rows.' },
+        { name: 'max_iterations', label: 'Safety limit', kind: 'number', default: 1000, min: 1, step: 1 },
+      ],
+    },
+    {
+      type: 'control.condition',
+      category: 'control',
+      label: 'Condition',
+      description: 'Chooses between two paths: true or false.',
+      icon: 'branch',
+      branch_handles: ['true', 'false'],
+      params: [
+        { name: 'expression', label: 'Check this', kind: 'string', required: true, placeholder: '{{ n1.output.found }}' },
+      ],
+    },
+    {
+      type: 'control.wait',
+      category: 'control',
+      label: 'Wait',
+      description: 'Pauses for a set amount of time.',
+      icon: 'clock',
+      params: [{ name: 'ms', label: 'Milliseconds', kind: 'number', required: true, default: 1000, min: 0, step: 100 }],
+    },
+    {
+      type: 'control.wait_for',
+      category: 'control',
+      label: 'Wait For',
+      description: 'Pauses until something appears on screen.',
+      icon: 'scan',
+      branch_handles: ['found', 'timeout'],
+      params: [
+        {
+          name: 'target', label: 'Wait for', kind: 'select', required: true, default: 'image',
+          options: [
+            { value: 'image', label: 'A picture (template)' },
+            { value: 'text', label: 'Some words' },
+          ],
+        },
+        { name: 'template', label: 'Template', kind: 'template', required: false },
+        { name: 'text', label: 'Text', kind: 'string', required: false },
+        { name: 'timeout_ms', label: 'Give up after (ms)', kind: 'number', default: 10000, min: 0, step: 500 },
+        { name: 'poll_ms', label: 'Check every (ms)', kind: 'number', default: 500, min: 50, step: 50 },
+      ],
+    },
+    {
+      type: 'control.set_variable',
+      category: 'control',
+      label: 'Set Variable',
+      description: 'Remembers a value so later steps can reuse it.',
+      icon: 'variable',
+      params: [
+        { name: 'name', label: 'Name', kind: 'string', required: true },
+        { name: 'value', label: 'Value', kind: 'string', required: false },
+      ],
+    },
+    {
+      type: 'control.log',
+      category: 'control',
+      label: 'Log',
+      description: 'Writes a note to the run log.',
+      icon: 'terminal',
+      params: [{ name: 'message', label: 'Message', kind: 'text', required: true }],
+    },
+    {
+      type: 'capture.screenshot',
+      category: 'capture',
+      label: 'Screenshot',
+      description: 'Takes a picture of your screen.',
+      icon: 'camera',
+      params: [
+        { name: 'region', label: 'Only this area', kind: 'region', required: false },
+        { name: 'save_as', label: 'Save as', kind: 'string', required: false, placeholder: 'shots/out.png' },
+      ],
+    },
+    {
+      type: 'vision.find_image',
+      category: 'vision',
+      label: 'Find Image',
+      description: 'Looks for a picture on screen.',
+      icon: 'image',
+      branch_handles: ['found', 'not_found'],
+      params: [
+        { name: 'template', label: 'Template', kind: 'template', required: true },
+        { name: 'threshold', label: 'How exact (0–1)', kind: 'number', default: 0.8, min: 0.1, max: 1.0, step: 0.05 },
+        { name: 'region', label: 'Only look here', kind: 'region', required: false },
+        { name: 'scales', label: 'Try sizes', kind: 'string', required: false, placeholder: '1.0, 0.9, 1.1' },
+      ],
+    },
+    {
+      type: 'vision.find_text',
+      category: 'vision',
+      label: 'Find Text',
+      description: 'Looks for words on screen.',
+      icon: 'text',
+      branch_handles: ['found', 'not_found'],
+      params: [
+        { name: 'text', label: 'Text to find', kind: 'string', required: true },
+        { name: 'region', label: 'Only look here', kind: 'region', required: false },
+        { name: 'case_sensitive', label: 'Match upper/lowercase', kind: 'boolean', default: false },
+      ],
+    },
+    {
+      type: 'action.click',
+      category: 'action',
+      label: 'Click',
+      description: 'Clicks the mouse where you want.',
+      icon: 'cursor',
+      params: [
+        {
+          name: 'target', label: 'Click on', kind: 'select', required: true, default: 'point',
+          options: [
+            { value: 'point', label: 'A spot (x, y)' },
+            { value: 'last_found', label: 'Whatever was just found' },
+            { value: 'image', label: 'A picture (template)' },
+            { value: 'text', label: 'Some words' },
+          ],
+        },
+        { name: 'x', label: 'X', kind: 'number', required: false, step: 1 },
+        { name: 'y', label: 'Y', kind: 'number', required: false, step: 1 },
+        { name: 'template', label: 'Template', kind: 'template', required: false },
+        { name: 'text', label: 'Text', kind: 'string', required: false },
+        {
+          name: 'button', label: 'Mouse button', kind: 'select', default: 'left',
+          options: [
+            { value: 'left', label: 'Left' },
+            { value: 'right', label: 'Right' },
+            { value: 'middle', label: 'Middle' },
+          ],
+        },
+        { name: 'clicks', label: 'Times to click', kind: 'number', default: 1, min: 1, max: 10, step: 1 },
+      ],
+    },
+    {
+      type: 'action.move',
+      category: 'action',
+      label: 'Move Mouse',
+      description: 'Moves the mouse pointer to a spot.',
+      icon: 'move',
+      params: [
+        { name: 'x', label: 'X', kind: 'number', required: true, step: 1 },
+        { name: 'y', label: 'Y', kind: 'number', required: true, step: 1 },
+      ],
+    },
+    {
+      type: 'action.drag',
+      category: 'action',
+      label: 'Drag',
+      description: 'Drags the mouse from one spot to another.',
+      icon: 'drag',
+      params: [
+        { name: 'from', label: 'From', kind: 'point', required: false },
+        { name: 'to', label: 'To', kind: 'point', required: false },
+        { name: 'use_last_found', label: 'Start from what was just found', kind: 'boolean', default: false },
+      ],
+    },
+    {
+      type: 'action.type_text',
+      category: 'action',
+      label: 'Type Text',
+      description: 'Types text for you, like a keyboard.',
+      icon: 'keyboard',
+      params: [
+        { name: 'text', label: 'Text', kind: 'text', required: true },
+        { name: 'interval_ms', label: 'Pause between keys (ms)', kind: 'number', default: 0, min: 0, step: 10 },
+      ],
+    },
+    {
+      type: 'action.press_key',
+      category: 'action',
+      label: 'Press Key',
+      description: 'Presses keys like Enter or Ctrl+S.',
+      icon: 'key',
+      params: [{ name: 'keys', label: 'Keys', kind: 'keys', required: true, placeholder: 'ctrl+s' }],
+    },
+    {
+      type: 'action.focus_window',
+      category: 'action',
+      label: 'Focus Window',
+      description: 'Brings a window to the front.',
+      icon: 'window',
+      branch_handles: ['found', 'not_found'],
+      params: [{ name: 'title', label: 'Window title contains', kind: 'string', required: true }],
+    },
+    {
+      type: 'action.launch',
+      category: 'action',
+      label: 'Launch',
+      description: 'Opens an app or command.',
+      icon: 'launch',
+      params: [
+        { name: 'command', label: 'Command', kind: 'string', required: true, placeholder: 'notepad.exe' },
+        { name: 'wait_ms', label: 'Then wait (ms)', kind: 'number', default: 1000, min: 0, step: 100 },
+      ],
+    },
+    {
+      type: 'script.python',
+      category: 'script',
+      label: 'Python Script',
+      description: 'Runs a bit of Python for custom logic.',
+      icon: 'code',
+      params: [{ name: 'code', label: 'Code', kind: 'code', required: true, placeholder: 'result = ctx["vars"].get("name")' }],
+    },
+    {
+      type: 'output.save_screenshot',
+      category: 'output',
+      label: 'Save Screenshot',
+      description: 'Saves a picture of your screen to a file.',
+      icon: 'save',
+      params: [
+        { name: 'path', label: 'Save to', kind: 'string', required: true, placeholder: 'output/shot.png' },
+        { name: 'region', label: 'Only this area', kind: 'region', required: false },
+      ],
+    },
+  ],
+};

@@ -1,0 +1,6 @@
+title: VxDesk Docs
+description: Fully-local desktop automation with an n8n-style visual workflow editor
+remote_theme: pages-themes/cayman@v0.2.0
+plugins:
+  - jekyll-remote-theme
+markdown: GFM

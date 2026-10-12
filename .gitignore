@@ -1,0 +1,33 @@
+# Python
+backend/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# Runtime artifacts
+dev-server.log
+runs/
+workflows/.runs/
+ai-settings.json
+remote-settings.json
+remote-agents.json
+logs/
+certs/
+
+# Build outputs & tools
+tools/
+build/
+dist/
+installer-output/
+packaging/icon_preview.png
+
+# OS
+Thumbs.db
+
+# Local machine audits (personal data, never publish)
+c-drive-audit/

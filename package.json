@@ -1,0 +1,17 @@
+{
+  "name": "vxdesk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "VxDesk — fully-local desktop automation platform with an n8n-style visual workflow editor",
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "dev:backend": "node scripts/dev.js --backend-only",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "test": "npm --prefix frontend test && backend/.venv/Scripts/python.exe -m pytest backend/tests -q",
+    "setup": "node scripts/setup.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

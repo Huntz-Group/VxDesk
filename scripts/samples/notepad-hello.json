@@ -1,0 +1,20 @@
+{
+  "name": "Notepad · Hello (real input demo)",
+  "description": "Opens Notepad and types a message into it — demonstrates launch, window focus, and typing. Edit the message in the Variables tab. Performs real keyboard input; close Notepad without saving afterwards.",
+  "nodes": [
+    {"id": "n1", "type": "trigger.manual", "name": "Start", "position": {"x": 0, "y": 140}, "params": {}, "disabled": false},
+    {"id": "n2", "type": "action.launch", "name": "Open Notepad", "position": {"x": 220, "y": 140}, "params": {"command": "notepad.exe", "wait_ms": 1500}, "disabled": false},
+    {"id": "n3", "type": "action.focus_window", "name": "Focus Notepad", "position": {"x": 460, "y": 140}, "params": {"title": "Notepad"}, "disabled": false},
+    {"id": "n4", "type": "action.type_text", "name": "Type message", "position": {"x": 700, "y": 60}, "params": {"text": "Hello from VxDesk! {{ vars.message }}", "interval_ms": 25}, "disabled": false},
+    {"id": "n5", "type": "control.log", "name": "Done", "position": {"x": 940, "y": 60}, "params": {"message": "Typed into Notepad. Close it without saving when you are done."}, "disabled": false},
+    {"id": "n6", "type": "control.log", "name": "Not found", "position": {"x": 700, "y": 240}, "params": {"message": "Could not find the Notepad window."}, "disabled": false}
+  ],
+  "edges": [
+    {"id": "e1", "source": "n1", "target": "n2", "sourceHandle": "default"},
+    {"id": "e2", "source": "n2", "target": "n3", "sourceHandle": "default"},
+    {"id": "e3", "source": "n3", "target": "n4", "sourceHandle": "found"},
+    {"id": "e4", "source": "n4", "target": "n5", "sourceHandle": "default"},
+    {"id": "e5", "source": "n3", "target": "n6", "sourceHandle": "not_found"}
+  ],
+  "variables": {"message": "Edit me in the Variables tab."}
+}
