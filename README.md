@@ -25,6 +25,12 @@ Build automation flows by dragging nodes onto a canvas: find an image or text on
 datasets. Everything runs on your machine — **no cloud, no telemetry**. Windows-first,
 architected so capture/input/vision backends can be swapped for macOS/Linux later.
 
+<div align="center">
+
+![VxDesk demo — a live workflow run in the visual editor: nodes light up as they execute and the console streams each step](docs/demo.gif)
+
+</div>
+
 ---
 
 ## 📖 Table of contents
